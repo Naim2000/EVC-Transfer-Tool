@@ -6,17 +6,19 @@
 
 static fstats stats ATTRIBUTE_ALIGN(32);
 #define ISFS_EEXIST -105
-#define ISFS_ENOENT -105
+#define ISFS_ENOENT -106
 
 
 void *ISFS_GetFile(const char *path, u32 *size) {
   *size = 0;
 
+  printf("ISFS_GetFile: Opening %s ...", path);
   s32 fd = ISFS_Open(path, ISFS_OPEN_READ);
   if (fd < 0) {
-    printf("ISFS_GetFile: unable to open file (error %d)\n", fd);
+    printf("failed! (%d)\n", fd);
     return nullptr;
   }
+  printf("OK! (fd %d)\n", fd);
 
   void *buf = nullptr;
   memset(&stats, 0, sizeof(fstats));
